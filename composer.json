@@ -10,7 +10,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "lirui\\NoLimitTree": "src"
+            "lirui\\NoLimitTree\\": "src"
         },
         "files": [
             "src/config.php"
