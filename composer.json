@@ -1,0 +1,22 @@
+{
+    "name": "lirui/no-limit-tree-tp5.1",
+    "description": "基于php5.1开发 无限制Tree上下级关系绑定 可避免使用递归 查询子节点非常效率 还可分页",
+    "keywords": ["tree", "tp5.1", "团队", "无极限", "无限制", "避免递归"],
+    "authors": [
+        {
+            "name": "lirui",
+            "email": "1950767658@qq.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "lirui\\NoLimitTree": "src"
+        },
+        "files": [
+            "src/config.php"
+        ]
+    },
+    "require": {
+        "topthink/framework": "5.1.*"
+    }
+}
