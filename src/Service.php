@@ -196,4 +196,42 @@ class Service extends Base
         $res = Db::query($sql);
         return count($res);
     }
+
+    /**
+     * 删除一个节点，同时删除这个节点下所有的子节点，谨慎使用
+     * @param int $uid
+     * @return bool
+     */
+    public function delete(int $uid = 0): bool
+    {
+        try {
+
+            Db::startTrans();
+            $data = Db::table(self::$tableName)
+                ->where(['uid' => $uid])
+                ->find();
+            if ($data) {
+                $lft = $data['lft'];
+                $rgt = $data['rgt'];
+                $width = $rgt - $lft + 1;
+                Db::table(self::$tableName)
+                    ->whereBetween('lft', $lft, $rgt)
+                    ->delete();
+                Db::table(self::$tableName)
+                    ->where("rgt > {$rgt}")
+                    ->setDec('rgt', $width);
+                Db::table(self::$tableName)
+                    ->where("lft > {$rgt}")
+                    ->setDec('lft', $width);
+            } else {
+                throw new Exception('uid data is null');
+            }
+
+            Db::commit();
+            return true;
+        } catch (Exception $e) {
+            Db::rollback();
+            return false;
+        }
+    }
 }
